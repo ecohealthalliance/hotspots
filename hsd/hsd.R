@@ -9,12 +9,14 @@ graphics.off()       # Close graphics windows
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Todo(EHA) turn all models into a single loop with multipage output
+
 dr<-read.table(file="data/eid08_drivers_19OCT11.csv",sep=",",header=TRUE)
 
-# repeat regression analysis and scaling according to Jones et al 2008 to verify methods
-# gets about 100% correspondance to the original values and coef are roughly in the right range
+# repeated regression analysis and scaling according to Jones et al 2008 to verify methods
+# original values and coef are in the right range
 
-# this was the weight used in the original analysis - a better one would be %land area in each grid cell
+# this was the weight used in the original analysis
 weight=dr$landarea/mean(dr$landarea)
 abslat=abs(dr$lat)
 
@@ -34,8 +36,6 @@ pred_totr<-1/(1+exp(-(coef(mt)[[1]]+coef(mt)[[2]]*dr$lndensity+coef(mt)[[4]]*dr$
 P_totr1<-1-1/(1+exp(pred_totr))
 P_totr1_sc<-(P_totr1-min(P_totr1))/(max(P_totr1)-min(P_totr1))
 
-# Check correlation between predicted output and original SPSS predictions
-cor.test(P_totr1_sc,dr$P_totr1_sc)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Zoonotic non-wildlife disease (reponse variable)
@@ -49,7 +49,9 @@ pred_totr<-1/(1+exp(-(coef(mz)[[1]]+coef(mz)[[2]]*dr$lndensity+coef(mz)[[4]]*dr$
 P_totr1<-1-1/(1+exp(pred_totr))
 P_totr1_sc<-(P_totr1-min(P_totr1))/(max(P_totr1)-min(P_totr1))
 
-cor.test(P_totr1_sc,dr$P_zoor1_sc)
+# todo (EHA) Add original values
+# cor.test(P_totr1_sc,dr$P_zoor1_sc) 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Wildlife zoonotic disease (response variable)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,7 +64,8 @@ pred_totr<-1/(1+exp(-(coef(mw)[[1]]+coef(mw)[[2]]*dr$lndensity+coef(mw)[[4]]*dr$
 P_totr1<-1-1/(1+exp(pred_totr))
 P_totr1_sc<-(P_totr1-min(P_totr1))/(max(P_totr1)-min(P_totr1))
 
-cor.test(P_totr1_sc,dr$P_wildr1_s)
+# todo (EHA) Add original values
+# cor.test(P_totr1_sc,dr$P_wildr1_s)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Foodborne disease (response variable)
@@ -76,7 +79,8 @@ pred_totr<-1/(1+exp(-(coef(mf)[[1]]+coef(mf)[[2]]*dr$lndensity+coef(mf)[[4]]*dr$
 P_totr1<-1-1/(1+exp(pred_totr))
 P_totr1_sc<-(P_totr1-min(P_totr1))/(max(P_totr1)-min(P_totr1))
 
-cor.test(P_totr1_sc,dr$P_foodr1_s)
+# todo (EHA) Add original values
+# cor.test(P_totr1_sc,dr$P_foodr1_s)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Vector-borne diseases (response variable)
@@ -90,7 +94,8 @@ pred_totr<-1/(1+exp(-(coef(mv)[[1]]+coef(mv)[[2]]*dr$lndensity+coef(mv)[[4]]*dr$
 P_totr1<-1-1/(1+exp(pred_totr))
 P_totr1_sc<-(P_totr1-min(P_totr1))/(max(P_totr1)-min(P_totr1))
 
-cor.test(P_totr1_sc,dr$P_vectr1_s)
+# todo (EHA) Add original values
+# cor.test(P_totr1_sc,dr$P_vectr1_s)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Drug resistant diseases (response variable)
@@ -104,7 +109,8 @@ pred_totr<-1/(1+exp(-(coef(md)[[1]]+coef(md)[[2]]*dr$lndensity+coef(md)[[4]]*dr$
 P_totr1<-1-1/(1+exp(pred_totr))
 P_totr1_sc<-(P_totr1-min(P_totr1))/(max(P_totr1)-min(P_totr1))
 
-cor.test(P_totr1_sc,dr$P_drmr1_sc)
+# todo (EHA) Add original values
+# cor.test(P_totr1_sc,dr$P_drmr1_sc)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # data mining with new drivers...

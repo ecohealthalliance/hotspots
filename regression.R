@@ -37,7 +37,8 @@ P_totr1<-1-1/(1+exp(pred_totr))
 P_totr1_sc<-(P_totr1-min(P_totr1))/(max(P_totr1)-min(P_totr1))
 
 # Check correlation between predicted output and original SPSS predictions
-cor.test(P_totr1_sc,dr$P_totr1_sc)
+# todo(Carlos) Calculate the original values
+# cor.test(P_totr1_sc,dr$P_totr1_sc)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Zoonotic non-wildlife disease (reponse variable)
