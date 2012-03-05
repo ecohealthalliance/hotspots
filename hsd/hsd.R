@@ -1,15 +1,13 @@
-# Project HQ
+# HSD Project 
+# Collaborators (EHA and CIESIN)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 rm(list = ls())      # Clear all variables
 graphics.off()       # Close graphics windows
 
 # Load libraries
-library(geosphere) # spherical trigonometry functions for geographic applications
-library(foreign) # exporting DBF files
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# TODO(EHA) 1 degree analysis
 
 dr<-read.table(file="data/eid08_drivers_19OCT11.csv",sep=",",header=TRUE)
 
@@ -222,55 +220,3 @@ write.table(drzoo,"data/dr_zoo.txt", sep=",")
 # todo(EHA) drmr
 
 # todo(EHA) vectr
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# new grid selection
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-# read species information
-# only those in the nature paper
-sp08<-as.data.frame(read.table("/Users/tiffzoo/Dropbox/Tiff Laptop Files/Manuscripts/Drivers of EIDs/Driver_analysis_March2011/sppnat08.TXT",header=TRUE,sep="\t"))
-sp08$nat08=1
-
-#all 475
-eid<-as.data.frame(read.table("/Users/tiffzoo/Dropbox/Tiff Laptop Files/Manuscripts/Drivers of EIDs/Driver_analysis_March2011/eha_475.TXT",header=TRUE,sep="\t"))
-#add nat08 column to eid to check 1/0 if in jones 2008
-eid<-merge(x=eid,y=sp08[,c(1,32)],by="EIDID",all.x=TRUE)
-
-#read in grids with EID locations and weight grid cells for EIDs that occur in >1 grid
-eid_grid<-as.data.frame(read.spss(file="/Users/tiffzoo/Dropbox/Tiff Laptop Files/EcoHealth Alliance/CIESIN/Non spatial/eid-grid.sav"))
-eid_grid<-eid_grid[,c(1,3,4,5)]
-eid_grid$prob<-with(eid_grid,1)
-
-#remove duplications (due to being a 0.25 grid originally)
-eid_grid<-eid_grid[!duplicated(eid_grid),]
-
-#count the number of grids for each EID event
-ngrid<-with(eid_grid,tapply(prob,EIDID,sum))
-
-#create equal distribution of probabilities among grids of the same EID
-for(i in 1:length(unique(eid_grid$EIDID))){
-	temp<-which(eid_grid$EIDID==unique(eid_grid$EIDID)[i])
-	eid_grid[temp,5]<-1/ngrid[[i]]
-	}
-
-#take only those EIDs in the original nature paper
-eid_grid$nat08=match(eid_grid[,1],sp08[,1],nomatch=0)
-eid_grid_nat=eid_grid[-(which(eid_grid$nat08==0)),]
-
-#calculate weighted number of EIDs per grid cell - this is where it would be best to parcel out by time/pathogen type, etc
-eidw<-eid_grid[!duplicated(eid_grid[,c(2,3,4)]),c(2,3,4)]
-eidw$n_eid<-with(eid_grid,tapply(prob,seqv1,sum))
-
-#nat08 eids only
-eidwn<-eid_grid_nat[!duplicated(eid_grid_nat[,c(2,3,4)]),c(2,3,4)]
-eidwn$n_eid<-with(eid_grid_nat,tapply(prob,seqv1,sum))
-
-
-
-#compute distance between all points using Meeus method, assuming a WGS84 ellipsoid
-d<-as.matrix(distm(cbind(dr$lon,dr$lat)))
-d.inv<-1/d
-diag(d.inv)<-0
-Moran.I(pred_totr,d.inv)
