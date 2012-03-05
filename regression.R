@@ -1,8 +1,17 @@
-library(geosphere);library(Design); library(ape); library(foreign)
+# Project HQ
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+rm(list = ls())      # Clear all variables
+graphics.off()       # Close graphics windows
 
-#1 degree analysis - re-do
+# Load libraries
+library(geosphere) # spherical trigonometry functions for geographic applications
+library(foreign) # exporting DBF files
 
-dr<-read.table(file="/Users/tiffzoo/Dropbox/Tiff Laptop Files/Manuscripts/Hotspots2/Database files Feb 2011/New analysis/eid08_join_drivers11NA.txt",sep=",",header=TRUE)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# TODO(EHA) 1 degree analysis
+
+dr<-read.table(file="data/eid08_drivers_19OCT11.csv",sep=",",header=TRUE)
 
 #repeat regression analysis and scaling according to Jones et al 2008 to verify methods
 #gets about 100% correspondance to the original values and coef are roughly in the right range
